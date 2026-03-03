@@ -78,8 +78,8 @@ The dataset contains articles from Mashable, split into a **training set** (~3,0
 - Out-of-sample AUC: **0.647** | Out-of-sample accuracy: **89.6%** (minimal overfitting)
 - Typical vs viral article profiles: mean predictor values by virality group
 - Predicted viral probabilities:
-  - Typical profile → **~8.6%** probability of going viral
-  - Viral profile → **~13.0%** probability of going viral
+  - Typical profile -> **~8.6%** probability of going viral
+  - Viral profile -> **~13.0%** probability of going viral
 - Model B (linear) predictions for profiles: 3,299 vs 4,482 predicted shares
 
 ---
@@ -115,10 +115,10 @@ R version 4.0 or higher is recommended.
 
 1. Clone or download this repository
 2. Place `train.csv` and `test.csv` in the project root directory
-3. Run `01_data_engineering.R` first — generates `onlinenews.RData`
+3. Run `01_data_engineering.R` first - generates `onlinenews.RData`
 4. Run `02_eda.R` (loads from `onlinenews.RData`)
 5. Run `03_linear_modelling.R` (loads from `onlinenews.RData`)
-6. Run `04_logistic_and_profiles.R` (depends on objects created in script 03 — run in the same R session, or re-source script 03 first)
+6. Run `04_logistic_and_profiles.R` (depends on objects created in script 03 - run in the same R session, or re-source script 03 first)
 
 > **Note:** Scripts 03 and 04 share objects (`train.clean`, `mB`, `channel_reduced`). Run them in the same R session or save/load intermediate results as needed.
 
