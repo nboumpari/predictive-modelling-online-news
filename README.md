@@ -31,13 +31,13 @@ The dataset contains articles from Mashable, split into a **training set** (~3,0
 - Recode binary dummy columns to factors (`No` / `Yes`)
 - Construct unified `channel` factor from 6 binary channel dummies
 - Construct unified `day` factor from 7 binary weekday dummies
-- Define `viral` binary variable using the **90th percentile threshold** (shares ≥ 6,200)
+- Define `viral` binary variable using the **90th percentile threshold** (shares >= 6,200)
 - Drop all original dummy columns
 - Apply identical engineering steps to the test dataset
 - Save to `onlinenews.RData`
 
 ### 02 - Exploratory Data Analysis
-- Lilliefors (KS) normality tests for all numeric variables — normality rejected for all
+- Lilliefors (KS) normality tests for all numeric variables - normality rejected for all
 - Pearson and Spearman correlation matrices; identify variables significantly correlated with `shares`
 - Correlation plot for the significant subset
 - Histograms, boxplots, and Normal QQ plots (in batches across all numeric variables)
@@ -57,21 +57,21 @@ The dataset contains articles from Mashable, split into a **training set** (~3,0
 
 ### 03 - Linear Regression Modelling
 - Fit full OLS model on training data; backward AIC stepwise selection
-- Iterative VIF removal to resolve multicollinearity → **Model A**
+- Iterative VIF removal to resolve multicollinearity -> **Model A**
 - Diagnostic plots (residuals vs fitted, QQ, scale-location, ACF, Cook's distance)
-- Identification and removal of 3 data entry errors (negative `kw_min_min`) → `train.clean`
+- Identification and removal of 3 data entry errors (negative `kw_min_min`) -> `train.clean`
 - Refit Model A on clean data
 - Assumption tests: linearity (`residualPlots`), normality (Lilliefors), homoscedasticity (Levene), independence (Durbin-Watson)
 - Out-of-sample RMSE for Model A: **14,770**
-- LASSO (10-fold CV) for variable screening → **Model B**
+- LASSO (10-fold CV) for variable screening -> **Model B**
 - Reduced `channel` factor (collapsing non-selected levels into reference)
-- Model B out-of-sample RMSE: **14,715** — better than Model A
-- Transformation attempts to fix assumption violations (log, polynomial, sqrt) — none fully resolved normality/homoscedasticity
+- Model B out-of-sample RMSE: **14,715** - better than Model A
+- Transformation attempts to fix assumption violations (log, polynomial, sqrt) - none fully resolved normality/homoscedasticity
 - Final centred Model B for interpretable intercept
 
 ### 04 - Logistic Regression & Profiles
-- Reframe prediction as binary classification: `viral` = 1 if shares ≥ 6,200
-- Full logistic model → backward stepwise → iterative VIF removal (drop `kw_avg_avg`, `rate_negative_words`, `channel`)
+- Reframe prediction as binary classification: `viral` = 1 if shares >= 6,200
+- Full logistic model → backward stepwise -> iterative VIF removal (drop `kw_avg_avg`, `rate_negative_words`, `channel`)
 - Final logistic model with 16 predictors
 - Goodness of fit: null vs fitted deviance test, deviance GoF test
 - In-sample AUC: **0.689** | In-sample accuracy: **89.7%**
@@ -86,12 +86,12 @@ The dataset contains articles from Mashable, split into a **training set** (~3,0
 
 ## Key Findings
 
-- **Channel type** is the strongest categorical predictor — posts in Social Media and Tech channels tend to attract more shares
+- **Channel type** is the strongest categorical predictor - posts in Social Media and Tech channels tend to attract more shares
 - **Weekend vs weekday** publication has no significant effect on virality
 - **Number of videos** is significantly higher in viral posts; number of images is not
-- **Content length** (`n_tokens_content`) matters — viral posts tend to be longer
+- **Content length** (`n_tokens_content`) matters - viral posts tend to be longer
 - **Keyword strength** variables (`kw_max_avg`, `kw_avg_avg`, `kw_min_avg`) are among the most predictive features
-- **Self-reference shares** (`self_reference_avg_sharess`) is strongly associated with virality — articles whose linked content was previously shared a lot tend to do better
+- **Self-reference shares** (`self_reference_avg_sharess`) is strongly associated with virality - articles whose linked content was previously shared a lot tend to do better
 - Linear regression assumptions (normality, homoscedasticity) could not be fully satisfied despite multiple transformations, so coefficient estimates should be interpreted with caution
 
 ---
