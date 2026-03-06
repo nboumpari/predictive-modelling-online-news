@@ -22,11 +22,11 @@ require(pROC)
 # (viral vs typical) using logistic regression.
 
 # Construct binary response using the same 90th percentile threshold as before
-viral      <- ifelse(train.clean$shares >= 6200, 1, 0)
-newdat     <- train.clean
-newdat$shares          <- NULL
+viral <- ifelse(train.clean$shares >= 6200, 1, 0)
+newdat <- train.clean
+newdat$shares <- NULL
 newdat$channel_reduced <- NULL
-newdat$viral           <- viral
+newdat$viral <- viral
 
 # Fit full logistic model
 logit_full <- glm(viral ~ ., data = newdat, family = binomial(link = "logit"))
@@ -92,8 +92,8 @@ summary(logit)
 # H0: null model has better fit
 # H1: fitted model has better fit
 test.stat <- logit$null.deviance - logit$deviance
-df.test   <- logit$df.null - logit$df.residual
-cv        <- qchisq(0.95, df.test)
+df.test <- logit$df.null - logit$df.residual
+cv <- qchisq(0.95, df.test)
 test.stat ; cv
 # test.stat > cv => reject H0 => fitted model has better fit than null.
 
@@ -101,8 +101,8 @@ test.stat ; cv
 # H0: model has good fit
 # H1: not H0
 dev <- logit$deviance
-df  <- logit$df.residual
-cv  <- qchisq(0.95, df)
+df <- logit$df.residual
+cv <- qchisq(0.95, df)
 dev ; cv
 # deviance << cv => cannot reject H0 => model has good fit.
 
@@ -112,8 +112,8 @@ dev ; cv
 
 #------ In-Sample ROC Curve and AUC
 
-newdat$phat  <- predict(logit, newdata = newdat, type = "response")
-roc_obj_in   <- roc(newdat$viral, newdat$phat)
+newdat$phat <- predict(logit, newdata = newdat, type = "response")
+roc_obj_in <- roc(newdat$viral, newdat$phat)
 plot(roc_obj_in, main = "ROC Curve")
 auc(roc_obj_in)
 # AUC = 0.6888
@@ -124,10 +124,10 @@ auc(roc_obj_in)
 
 #------ In-Sample Classification Accuracy
 
-pred_prob  <- predict(logit, type = "response")
+pred_prob <- predict(logit, type = "response")
 pred_class <- ifelse(pred_prob >= 0.5, 1, 0)
-actual     <- logit$y
-accuracy   <- mean(pred_class == actual)
+actual <- logit$y
+accuracy <- mean(pred_class == actual)
 accuracy
 # In-sample accuracy = 89.7% !!
 # Almost 90% of observations are correctly classified.
@@ -135,8 +135,8 @@ accuracy
 
 #------ Out-of-Sample Classification Accuracy
 
-datanew        <- test
-datanew$viral  <- ifelse(test$shares >= 6200, 1, 0)
+datanew <- test
+datanew$viral <- ifelse(test$shares >= 6200, 1, 0)
 
 test_logit <- glm(formula = viral ~ n_unique_tokens + num_videos + average_token_length +
                     num_keywords + kw_min_max + kw_avg_max + kw_min_avg + kw_max_avg +
@@ -145,9 +145,9 @@ test_logit <- glm(formula = viral ~ n_unique_tokens + num_videos + average_token
                     min_negative_polarity + abs_title_subjectivity + abs_title_sentiment_polarity,
                   family = binomial(link = "logit"), data = datanew)
 
-test_prob     <- predict(test_logit, type = "response")
-test_class    <- ifelse(test_prob >= 0.5, 1, 0)
-test_actual   <- datanew$viral
+test_prob <- predict(test_logit, type = "response")
+test_class <- ifelse(test_prob >= 0.5, 1, 0)
+test_actual <- datanew$viral
 test_accuracy <- mean(test_class == test_actual)
 test_accuracy
 # Out-of-sample accuracy = 89.6%
@@ -227,7 +227,7 @@ x_typical <- c(n_unique_tokens             = 0.53,
                abs_title_sentiment_polarity = 0.15)
 
 log_odds_typical <- coef(logit)["(Intercept)"] + sum(coef(logit)[-1] * x_typical)
-prob_typical     <- 1 / (1 + exp(-log_odds_typical))
+prob_typical <- 1 / (1 + exp(-log_odds_typical))
 prob_typical
 # 0.0860 -- Articles with average characteristics of typical news have about
 # a 1 in 12 chance of going viral.
@@ -250,7 +250,7 @@ x_viral <- c(n_unique_tokens             = 0.53,
              abs_title_sentiment_polarity = 0.21)
 
 log_odds_viral <- coef(logit)["(Intercept)"] + sum(coef(logit)[-1] * x_viral)
-prob_viral     <- 1 / (1 + exp(-log_odds_viral))
+prob_viral <- 1 / (1 + exp(-log_odds_viral))
 prob_viral
 # 0.1304 -- Articles with characteristics matching the viral group average have
 # about a 1 in 8 chance of going viral.
@@ -269,7 +269,7 @@ round(aggregate(. ~ viral, data = train.clean[, c("n_tokens_title", "num_videos"
                 FUN = mean), 2)
 
 # Get modal channel for each viral status (most frequent level)
-tt                  <- table(viral, train.clean$channel_reduced)
+tt <- table(viral, train.clean$channel_reduced)
 mode_channel_typical <- names(which.max(tt[1, ])) ; print(mode_channel_typical)  # reference
 mode_channel_viral   <- names(which.max(tt[2, ])) ; print(mode_channel_viral)    # reference
 
@@ -302,3 +302,4 @@ y_viral <- data.frame(
 
 pred_typical <- predict(mB, newdata = y_typical) ; print(pred_typical)  # 3298.84
 pred_viral   <- predict(mB, newdata = y_viral)   ; print(pred_viral)    # 4482.425
+
