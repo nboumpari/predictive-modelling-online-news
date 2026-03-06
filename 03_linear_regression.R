@@ -87,7 +87,7 @@ acf(resA, main = "Independence: ACF of Res")
 plot(mA, which = 5)
 
 # Check the influential observations flagged in Cook's distance plot (1236, 1313, 2557)
-obs       <- c(1236, 1313, 2557)
+obs <- c(1236, 1313, 2557)
 influence <- influence.measures(mod)
 influence$infmat[obs, ]
 # Observation 1236 is the major concern -- Cook's D = 7.09
@@ -146,7 +146,7 @@ View(train[c(1427, 385, 1558), ])
 #------ Assumption Tests
 
 # Linearity:
-residualPlots(mA,       test = TRUE, type = "rstudent")  # kw_avg_min is problematic (p < 2e-16)
+residualPlots(mA, test = TRUE, type = "rstudent")  # kw_avg_min is problematic (p < 2e-16)
 residualPlots(mA.clean, test = TRUE, type = "rstudent")  # kw_max_avg is problematic (p < 2e-16)
 
 # Normality:
@@ -154,20 +154,20 @@ lillie.test(resA)    # p < 2.2e-16 => reject H0 => normality is violated
 lillie.test(res.cl)  # p < 2.2e-16 => reject H0 => normality is violated
 
 # Homoscedasticity:
-qfitA    <- cut(fitA,   breaks = quantile(fitA),   include.lowest = TRUE)
+qfitA <- cut(fitA, breaks = quantile(fitA), include.lowest = TRUE)
 qfitA.cl <- cut(fit.cl, breaks = quantile(fit.cl), include.lowest = TRUE)
 leveneTest(resA,   qfitA)    # p < 2.2e-16 => reject H0 => homoscedasticity is violated
 leveneTest(res.cl, qfitA.cl) # p = 1.398e-15 => reject H0 => homoscedasticity is violated
 
 # Independence:
-durbinWatsonTest(mA,       max.lag = 8)
+durbinWatsonTest(mA, max.lag = 8)
 durbinWatsonTest(mA.clean, max.lag = 8)
 # No indication of serial correlation.
 
 #------ Predictive Ability of Model A
 
-pred_mA      <- predict(mA.clean, newdata = test)
-actual       <- test$shares
+pred_mA <- predict(mA.clean, newdata = test)
+actual <- test$shares
 rmse_test_mA <- sqrt(mean((actual - pred_mA)^2))
 print(rmse_test_mA)
 # Out-of-sample RMSE (mA) = 14770.31
@@ -178,7 +178,7 @@ print(rmse_test_mA)
 
 mfull <- lm(shares ~ ., data = train.clean)
 
-X     <- model.matrix(mfull)[, -1]
+X <- model.matrix(mfull)[, -1]
 lasso <- glmnet(X, train.clean$shares)
 
 # Use 10-fold CV to find a reasonable value for lambda
@@ -220,7 +220,7 @@ test$channel_reduced[!test$channel_reduced %in% kept_levels] <- "Reference"
 test$channel_reduced <- factor(test$channel_reduced)
 
 train.clean$channel_reduced <- relevel(train.clean$channel_reduced, ref = "Reference")
-test$channel_reduced        <- relevel(test$channel_reduced,        ref = "Reference")
+test$channel_reduced <- relevel(test$channel_reduced,        ref = "Reference")
 
 # Fit model B
 mB <- lm(shares ~ n_tokens_title + num_videos + num_keywords + kw_avg_avg +
@@ -237,8 +237,8 @@ vif(mB)
 
 #------ Predictive Ability of Model B
 
-pred_mB      <- predict(mB, newdata = test)
-actual       <- test$shares
+pred_mB <- predict(mB, newdata = test)
+actual <- test$shares
 rmse_test_mB <- sqrt(mean((actual - pred_mB)^2))
 print(rmse_test_mB)
 # Out-of-sample RMSE (mB) = 14714.5 < 14770.31 = RMSE (mA)
@@ -300,7 +300,7 @@ leveneTest(resB, qfitB)
 #==============================================================================#
 
 # m0: log(shares) -- log transform on response
-m0   <- lm(log(shares) ~ n_tokens_title + num_videos + num_keywords + kw_avg_avg +
+m0 <- lm(log(shares) ~ n_tokens_title + num_videos + num_keywords + kw_avg_avg +
              self_reference_avg_sharess + LDA_02 + LDA_03 + avg_negative_polarity +
              max_negative_polarity + channel_reduced, data = train.clean)
 res0 <- rstudent(m0)
@@ -325,7 +325,7 @@ leveneTest(res0, qfit0)
 
 #----
 # m1: poly(kw_avg_avg, 2) -- polynomial term for the non-linear predictor
-m1   <- lm(shares ~ n_tokens_title + num_videos + num_keywords + poly(kw_avg_avg, 2) +
+m1 <- lm(shares ~ n_tokens_title + num_videos + num_keywords + poly(kw_avg_avg, 2) +
              self_reference_avg_sharess + LDA_02 + LDA_03 + avg_negative_polarity +
              max_negative_polarity + channel_reduced, data = train.clean)
 res1 <- rstudent(m1)
@@ -351,7 +351,7 @@ leveneTest(res1, qfit1)
 
 #----
 # m2: log(shares) + poly(kw_avg_avg, 2)
-m2   <- lm(log(shares) ~ n_tokens_title + num_videos + num_keywords + poly(kw_avg_avg, 2) +
+m2 <- lm(log(shares) ~ n_tokens_title + num_videos + num_keywords + poly(kw_avg_avg, 2) +
              self_reference_avg_sharess + LDA_02 + LDA_03 + avg_negative_polarity +
              max_negative_polarity + channel_reduced, data = train.clean)
 res2 <- rstudent(m2)
@@ -376,7 +376,7 @@ leveneTest(res2, qfit2)
 
 #----
 # m3: I(kw_avg_avg^2) + I(self_reference_avg_sharess^2)
-m3   <- lm(shares ~ n_tokens_title + num_videos + num_keywords + I(kw_avg_avg^2) +
+m3 <- lm(shares ~ n_tokens_title + num_videos + num_keywords + I(kw_avg_avg^2) +
              I(self_reference_avg_sharess^2) + LDA_02 + LDA_03 + avg_negative_polarity +
              max_negative_polarity + channel_reduced, data = train.clean)
 res3 <- rstudent(m3)
@@ -401,7 +401,7 @@ leveneTest(res3, qfit3)
 
 #----
 # m4: sqrt(kw_avg_avg)
-m4   <- lm(shares ~ n_tokens_title + num_videos + num_keywords + sqrt(kw_avg_avg) +
+m4 <- lm(shares ~ n_tokens_title + num_videos + num_keywords + sqrt(kw_avg_avg) +
              self_reference_avg_sharess + LDA_02 + LDA_03 + avg_negative_polarity +
              max_negative_polarity + channel_reduced, data = train.clean)
 res4 <- rstudent(m4)
@@ -431,19 +431,20 @@ leveneTest(res4, qfit4)
 #---- Centre all numeric predictors so the intercept has a logical interpretation
 # (corresponds to a post with average values for all numeric predictors)
 
-x1.centered  <- train.clean$n_tokens_title            - mean(train.clean$n_tokens_title)
-x2.centered  <- train.clean$num_videos                - mean(train.clean$num_videos)
-x3.centered  <- train.clean$num_keywords              - mean(train.clean$num_keywords)
-x4.centered  <- train.clean$kw_avg_avg                - mean(train.clean$kw_avg_avg)
-x5.centered  <- train.clean$self_reference_avg_sharess - mean(train.clean$self_reference_avg_sharess)
-x6.centered  <- train.clean$LDA_02                    - mean(train.clean$LDA_02)
-x7.centered  <- train.clean$LDA_03                    - mean(train.clean$LDA_03)
-x8.centered  <- train.clean$avg_negative_polarity     - mean(train.clean$avg_negative_polarity)
-x9.centered  <- train.clean$max_negative_polarity     - mean(train.clean$max_negative_polarity)
-x10          <- train.clean$channel_reduced
+x1.centered <- train.clean$n_tokens_title - mean(train.clean$n_tokens_title)
+x2.centered <- train.clean$num_videos - mean(train.clean$num_videos)
+x3.centered <- train.clean$num_keywords - mean(train.clean$num_keywords)
+x4.centered <- train.clean$kw_avg_avg - mean(train.clean$kw_avg_avg)
+x5.centered <- train.clean$self_reference_avg_sharess - mean(train.clean$self_reference_avg_sharess)
+x6.centered <- train.clean$LDA_02 - mean(train.clean$LDA_02)
+x7.centered <- train.clean$LDA_03 - mean(train.clean$LDA_03)
+x8.centered <- train.clean$avg_negative_polarity - mean(train.clean$avg_negative_polarity)
+x9.centered <- train.clean$max_negative_polarity - mean(train.clean$max_negative_polarity)
+x10 <- train.clean$channel_reduced
 
 mB.centered <- lm(train.clean$shares ~ x1.centered + x2.centered + x3.centered +
                     x4.centered + x5.centered + x6.centered + x7.centered +
                     x8.centered + x9.centered + x10)
 summary(mB.centered)
 # Proceed with interpretation.
+
