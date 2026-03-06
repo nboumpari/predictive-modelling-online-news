@@ -25,8 +25,8 @@ str(data)
 # Another issue is the class of the variables, which will have to be fixed.
 
 # Delete redundant variables
-data$X         <- NULL  # unknown variable
-data$url       <- NULL  # non-explanatory
+data$X <- NULL  # unknown variable
+data$url <- NULL  # non-explanatory
 data$timedelta <- NULL  # non-explanatory
 
 #------------------------------------------------------------------------------
@@ -111,20 +111,20 @@ viral <- ifelse(data$shares >= 6200, "Viral", "Typical")
 
 #---- Remove Redundant Categorical Variables (channel and day dummies)
 
-data$data_channel_is_lifestyle    <- NULL
-data$data_channel_is_bus          <- NULL
+data$data_channel_is_lifestyle <- NULL
+data$data_channel_is_bus <- NULL
 data$data_channel_is_entertainment <- NULL
-data$data_channel_is_socmed       <- NULL
-data$data_channel_is_world        <- NULL
-data$data_channel_is_tech         <- NULL
+data$data_channel_is_socmed <- NULL
+data$data_channel_is_world <- NULL
+data$data_channel_is_tech <- NULL
 
-data$weekday_is_monday    <- NULL
-data$weekday_is_tuesday   <- NULL
+data$weekday_is_monday <- NULL
+data$weekday_is_tuesday <- NULL
 data$weekday_is_wednesday <- NULL
-data$weekday_is_thursday  <- NULL
-data$weekday_is_friday    <- NULL
-data$weekday_is_saturday  <- NULL
-data$weekday_is_sunday    <- NULL
+data$weekday_is_thursday <- NULL
+data$weekday_is_friday <- NULL
+data$weekday_is_saturday <- NULL
+data$weekday_is_sunday <- NULL
 
 #------------------------------------------------------------------------------
 #---- Data Engineering for Test Dataset
@@ -132,8 +132,8 @@ data$weekday_is_sunday    <- NULL
 # Load test dataset
 test <- read.csv(file.choose(), header = TRUE, sep = ";")
 
-test$X         <- NULL
-test$url       <- NULL
+test$X <- NULL
+test$url <- NULL
 test$timedelta <- NULL
 
 for (col in num_cols) {
@@ -155,13 +155,13 @@ test$day <- ifelse(test$weekday_is_monday    == "Yes", 1,
 test$day <- as.factor(test$day)
 levels(test$day) <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
-test$weekday_is_monday    <- NULL
-test$weekday_is_tuesday   <- NULL
+test$weekday_is_monday <- NULL
+test$weekday_is_tuesday <- NULL
 test$weekday_is_wednesday <- NULL
-test$weekday_is_thursday  <- NULL
-test$weekday_is_friday    <- NULL
-test$weekday_is_saturday  <- NULL
-test$weekday_is_sunday    <- NULL
+test$weekday_is_thursday <- NULL
+test$weekday_is_friday <- NULL
+test$weekday_is_saturday <- NULL
+test$weekday_is_sunday <- NULL
 
 # Variable Channel
 test$channel <- NULL
@@ -174,12 +174,13 @@ test$channel <- ifelse(test$data_channel_is_tech          == "Yes", 1,
 test$channel <- as.factor(test$channel)
 levels(test$channel) <- c("Tech", "Entertainment", "Business", "Social Media", "World", "Lifestyle", "Other")
 
-test$data_channel_is_lifestyle     <- NULL
-test$data_channel_is_bus           <- NULL
+test$data_channel_is_lifestyle <- NULL
+test$data_channel_is_bus <- NULL
 test$data_channel_is_entertainment <- NULL
-test$data_channel_is_socmed        <- NULL
-test$data_channel_is_world         <- NULL
-test$data_channel_is_tech          <- NULL
+test$data_channel_is_socmed <- NULL
+test$data_channel_is_world <- NULL
+test$data_channel_is_tech <- NULL
 
 # Save pre-processed data
 save(data, test, viral, num_cols, cat_cols, file = "onlinenews.RData")
+
