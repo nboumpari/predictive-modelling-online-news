@@ -29,7 +29,7 @@ names(pvals) <- names(numeric_data)
 vars <- names(numeric_data)
 
 for (v in vars) {
-  x        <- na.omit(data[[v]])
+  x <- na.omit(data[[v]])
   pvals[v] <- lillie.test(x)$p.value
 }
 pvals
@@ -230,16 +230,16 @@ beige_palette <- colorRampPalette(c("lightyellow", "tan", "brown"))
 
 # Distribution of Articles by Day
 day_counts <- table(data$day)
-day_perc   <- round(100 * prop.table(day_counts), 1)
-labels1    <- paste(names(day_counts), "\nFreq:", day_counts, "\n(", day_perc, "%)", sep = "")
+day_perc <- round(100 * prop.table(day_counts), 1)
+labels1 <- paste(names(day_counts), "\nFreq:", day_counts, "\n(", day_perc, "%)", sep = "")
 pie(day_counts, labels = labels1,
     main = "Distribution of Articles by Day",
     col = beige_palette(7), border = "white", cex = 0.8, cex.main = 0.9)
 
 # Distribution of Articles by Data Channel
 channel_counts <- table(data$channel)
-channel_perc   <- round(100 * prop.table(channel_counts), 1)
-labels2        <- paste(names(channel_counts), "\nFreq:", channel_counts, "\n(", channel_perc, "%)", sep = "")
+channel_perc <- round(100 * prop.table(channel_counts), 1)
+labels2 <- paste(names(channel_counts), "\nFreq:", channel_counts, "\n(", channel_perc, "%)", sep = "")
 pie(channel_counts, labels = labels2,
     main = "Distribution of Articles by Channel",
     col = c("cadetblue1", "lightblue", "royalblue1",
@@ -248,8 +248,8 @@ pie(channel_counts, labels = labels2,
 
 # Distribution of Typical vs Viral Posts
 popularity_counts <- table(viral)
-popularity_perc   <- round(100 * prop.table(popularity_counts), 1)
-labels3           <- paste(names(popularity_counts), "\nFreq:", popularity_counts, "\n(", popularity_perc, "%)", sep = "")
+popularity_perc <- round(100 * prop.table(popularity_counts), 1)
+labels3 <- paste(names(popularity_counts), "\nFreq:", popularity_counts, "\n(", popularity_perc, "%)", sep = "")
 pie(popularity_counts, labels = labels3,
     main = "Distribution of Articles by Popularity",
     col = c("lavenderblush4", "lightslateblue"),
@@ -567,3 +567,4 @@ chisq.test(tab)$expected  # all e_ij >= 5
 chisq.test(tab)
 # p-value < 2.2e-16 => reject H0.
 # The popularity of a post depends on the channel type it is posted to.
+
