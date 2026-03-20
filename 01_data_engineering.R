@@ -81,24 +81,24 @@ str(data)
 #---- Construct Unified Data Channel Variable
 
 data$channel <- NULL
-data$channel <- ifelse(data$data_channel_is_tech          == "Yes", 1,
+data$channel <- ifelse(data$data_channel_is_tech == "Yes", 1,
                 ifelse(data$data_channel_is_entertainment == "Yes", 2,
-                ifelse(data$data_channel_is_bus           == "Yes", 3,
-                ifelse(data$data_channel_is_socmed        == "Yes", 4,
-                ifelse(data$data_channel_is_world         == "Yes", 5,
-                ifelse(data$data_channel_is_lifestyle     == "Yes", 6, 7))))))
+                ifelse(data$data_channel_is_bus == "Yes", 3,
+                ifelse(data$data_channel_is_socmed == "Yes", 4,
+                ifelse(data$data_channel_is_world == "Yes", 5,
+                ifelse(data$data_channel_is_lifestyle == "Yes", 6, 7))))))
 data$channel <- as.factor(data$channel)
 levels(data$channel) <- c("Tech", "Entertainment", "Business", "Social Media", "World", "Lifestyle", "Other")
 
 #---- Construct Unified Day of Publication Variable
 
 data$day <- NULL
-data$day <- ifelse(data$weekday_is_monday    == "Yes", 1,
-            ifelse(data$weekday_is_tuesday   == "Yes", 2,
+data$day <- ifelse(data$weekday_is_monday == "Yes", 1,
+            ifelse(data$weekday_is_tuesday == "Yes", 2,
             ifelse(data$weekday_is_wednesday == "Yes", 3,
-            ifelse(data$weekday_is_thursday  == "Yes", 4,
-            ifelse(data$weekday_is_friday    == "Yes", 5,
-            ifelse(data$weekday_is_saturday  == "Yes", 6, 7))))))
+            ifelse(data$weekday_is_thursday == "Yes", 4,
+            ifelse(data$weekday_is_friday == "Yes", 5,
+            ifelse(data$weekday_is_saturday == "Yes", 6, 7))))))
 data$day <- as.factor(data$day)
 levels(data$day) <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 any(is.na(data$day))  # FALSE
@@ -146,12 +146,12 @@ for (col in cat_cols) {
 
 # Variable Day
 test$day <- NULL
-test$day <- ifelse(test$weekday_is_monday    == "Yes", 1,
-            ifelse(test$weekday_is_tuesday   == "Yes", 2,
+test$day <- ifelse(test$weekday_is_monday == "Yes", 1,
+            ifelse(test$weekday_is_tuesday == "Yes", 2,
             ifelse(test$weekday_is_wednesday == "Yes", 3,
-            ifelse(test$weekday_is_thursday  == "Yes", 4,
-            ifelse(test$weekday_is_friday    == "Yes", 5,
-            ifelse(test$weekday_is_saturday  == "Yes", 6, 7))))))
+            ifelse(test$weekday_is_thursday == "Yes", 4,
+            ifelse(test$weekday_is_friday == "Yes", 5,
+            ifelse(test$weekday_is_saturday == "Yes", 6, 7))))))
 test$day <- as.factor(test$day)
 levels(test$day) <- c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
@@ -165,12 +165,12 @@ test$weekday_is_sunday <- NULL
 
 # Variable Channel
 test$channel <- NULL
-test$channel <- ifelse(test$data_channel_is_tech          == "Yes", 1,
+test$channel <- ifelse(test$data_channel_is_tech == "Yes", 1,
                 ifelse(test$data_channel_is_entertainment == "Yes", 2,
-                ifelse(test$data_channel_is_bus           == "Yes", 3,
-                ifelse(test$data_channel_is_socmed        == "Yes", 4,
-                ifelse(test$data_channel_is_world         == "Yes", 5,
-                ifelse(test$data_channel_is_lifestyle     == "Yes", 6, 7))))))
+                ifelse(test$data_channel_is_bus == "Yes", 3,
+                ifelse(test$data_channel_is_socmed == "Yes", 4,
+                ifelse(test$data_channel_is_world == "Yes", 5,
+                ifelse(test$data_channel_is_lifestyle == "Yes", 6, 7))))))
 test$channel <- as.factor(test$channel)
 levels(test$channel) <- c("Tech", "Entertainment", "Business", "Social Media", "World", "Lifestyle", "Other")
 
