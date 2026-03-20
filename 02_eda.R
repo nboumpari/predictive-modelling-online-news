@@ -495,9 +495,9 @@ t.test(data$num_videos ~ viral)
 
 # Error bar plot
 means <- tapply(data$num_videos, viral, mean)
-sds   <- tapply(data$num_videos, viral, sd)
-ns    <- tapply(data$num_videos, viral, length)
-ses   <- sds / sqrt(ns)
+sds <- tapply(data$num_videos, viral, sd)
+ns <- tapply(data$num_videos, viral, length)
+ses <- sds / sqrt(ns)
 
 bp <- barplot(means, ylim = c(0, max(means + ses) * 1.2),
               xlab = "Viral Status", ylab = "Number of Videos",
